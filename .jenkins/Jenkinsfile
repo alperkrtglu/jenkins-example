@@ -1,0 +1,31 @@
+pipeline {
+    agent any
+    stages {
+        stage('Prepare build agent') {
+            agent {
+                docker {
+                    image 'openjdk:17.0.1-jdk-slim'
+                    args '-v /var/run/docker.sock:/var/run/docker.sock -v /home/ec2-user/.m2:/root/.m2 -u root:root'
+                    reuseNode true
+                }
+            }
+            stages {
+                stage('[Started]') {
+                    steps {
+                        sh 'echo Pipeline Started!'
+                    }
+                }
+                stage('[Clean]') {
+                    steps {
+                        sh './mvnw clean'
+                    }
+                }
+                stage('[Compile]') {
+                    steps {
+                        sh './mvnw compile'
+                    }
+                }
+            }
+        }
+    }
+}
