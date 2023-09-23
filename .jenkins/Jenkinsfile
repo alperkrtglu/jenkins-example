@@ -20,11 +20,6 @@ pipeline {
                         sh './mvnw clean'
                     }
                 }
-                stage('[Compile]') {
-                    steps {
-                        sh './mvnw compile'
-                    }
-                }
             }
         }
     }
